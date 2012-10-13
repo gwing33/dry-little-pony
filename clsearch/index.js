@@ -57,11 +57,11 @@ function splitSentences(taggedWords) {
 
   for (i = 0; i < taggedWords.length; i++) {
     word = taggedWords[i]
+    current.push(word)
     if (__sentenceEnd[word[1]] && current.length) {
+      current.push()
       sentences.push(current)
       current = []
-    } else {
-      current.push(word)
     }
   }
 
@@ -155,7 +155,11 @@ function parseText(title, body, callback) {
     madlibs.push(generateMadlib(chunks[i]))
   }
 
-  callback(null, title, madlibs)
+  callback(null, {
+    title: title,
+    body: body,
+    madlibs: madlibs
+  })
 }
 
 getMadLib = function(query, callback){
@@ -176,11 +180,12 @@ getMadLib = function(query, callback){
 
 exports.getMadLib = getMadLib;
 
-// getMadLib('fun', function(title, body, madlibs) {
-//   console.log(title)
-//   console.log(body)
 
-//   for (var i=0; i<madlibs.length; i++) {
-//   console.log(JSON.stringify(madlibs[i]))
-//   }
-// })
+getMadLib('love', function(err, result) {
+  console.log(result.title)
+  console.log(result.body)
+
+  for (var i=0; i<result.madlibs.length; i++) {
+  console.log(JSON.stringify(result.madlibs[i]))
+  }
+})
