@@ -3,45 +3,36 @@ extends layout
 block content
   h2 Complete the Following Mad Lib...
   div(class='madlib-box')
-    div(class='madlib-snippet')
-      p
-        | Some madlib goes here
-        input(placeholder='Enter a Noun', type="text")
-        | Blah blah blah.
-      input(type='submit', value='Continue &raquo;')
-
     div(class='loading')
       | Please Wait you Dry Little Pony...
 
+  div(class='active-users')
+
+  script(id='snippet', type='template/html')
+    div(class='madlib-snippet')
+      p
+        <%= snippet %>
+      input(type='submit', value='Continue &raquo;')
+
+  script(id='complete', type='template/html')
     div(class='madlib-complete')
       p
         | Some madlib goes here 
         span People 
           i Noun by: Little Timmy 
         | Blah blah blah.
-        | Some madlib goes here 
-        span People 
-          i by: Little Timmy 
-        | Blah blah blah.
-        | Some madlib goes here 
-        span People 
-          i by: Little Timmy 
-        | Blah blah blah.
-        | Some madlib goes here 
-        span People 
-          i by: Little Timmy 
-        | Blah blah blah.
       input(type='submit', value='Restart')
 
-  div(class='active-users') Active Users: 
-    span Little Timmy
-    , 
-    span Little Tommy
-    , 
-    span Bob
+  script(id='active_users', type='template/html')
+    | Active Users: 
+    | <% _.each(users, function(user) { %> <span><%= user %></span> <% }); %>
 
   script(src='/socket.io/socket.io.js')
   script
+    var snippet = _.template(document.getElementById('snippet').innerHTML);
+    var complete = _.template(document.getElementById('complete').innerHTML);
+    var active_users = _.template(document.getElementById('active_users').innerHTML);
+
     var socket = io.connect('http://localhost');
     socket.on('madlib:start', function (data) {
       console.log(data);
