@@ -3,9 +3,7 @@
  * Module dependencies.
  */
 
-
-
- var express = require('express')
+var express = require('express')
   , app = express()
   , server = require('http').createServer(app)
   , io = require('socket.io').listen(server)
@@ -30,6 +28,8 @@ app.configure('development', function(){
 });
 
 app.get('/', routes.index);
+
+require('./socketManager')(io);
 
 server.listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
