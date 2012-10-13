@@ -29,7 +29,9 @@ function Socket(socket){
 
     socket.on('need-sentence', function(){
         log('I need a sentence')
-        socket.emit('new-sentence', collab.getSentence());
+        collab.getSentence().then(function(block){
+            socket.emit('new-sentence', block);
+        });
     });
 
     socket.on('usethis', function(sentence){

@@ -39,9 +39,7 @@ var socket = io.connect('http://localhost');
 
     // parts filled
     submitSentence = function(){
-        socket.emit('usethis', function(){
-
-        })
+        socket.emit('usethis', ['start', {}, 'end'])
     }
 
     

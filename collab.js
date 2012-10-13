@@ -1,41 +1,72 @@
 
-var clone = require('clone');
+var clone = require('clone'),
+    log = require('util').log,
+    Q = require('q'),
+    clsearch = require('./clsearch');
 
-var log = require('util').log;
-
-var newStory = (function(){
-    var library = [
-        [], [], []
+var getNewStory = (function(){
+    var terms = [
+        'desert',
+        'pony',
+        'geek',
+        'web',
+        'internet'
     ];
 
     var i = -1;
 
     return function ns (){
-        log('sending story '+(i+1))
-        return clone(library[++i % library.length], false);
+        var q = Q.defer();
+        log('sending story '+(i+1));
+        i = ( i + 1 ) % terms.length
+        process.nextTick(function search (){
+            clsearch.getMadLib(terms[i], function(err, data){
+                if (err){
+                    r.reject(err);
+                } else {
+                    q.resolve(data);
+                }
+            })
+        })
+        return q.promise;
     }
 })()
 
 function Collab (story){
     log('new collab');
-    this.story = newStory();
-    this.blocksSent = 0;
+    var collab = this;
+    getNewStory().then(function(data){
+        collab.story = data.madlibs;
+        collab.blocksSent = 0;
+        collab.onReady.forEach(function(cb){
+            cb();
+        });
+    });
 }
 
 Collab.prototype = {
     nextSentence: function(){
-        var s
-        if (this.blocksSent >= this.story.length){
-            log('all of the sentences have been sent')
-            s = false;
+        var q = Q.defer(),
+            act = function(){
+                if (me.blocksSent >= me.story.length){
+                    log('all of the sentences have been sent')
+                    q.resolve(false);
+                } else {
+                    log('sending sentence '+me.blocksSent)
+                    q.resolve(me.story[me.blocksSent])
+                    me.blocksSent++;
+                }
+            },
+            me = this;
+        if (this.ready){
+            act()
         } else {
-            log('sending sentence '+this.blocksSent)
-            s = this.story[this.blocksSent]
-            log(s)
-            this.blocksSent++;
+            this.onReady.push(act)
         }
-        return s;
-    }
+        return q.promise;
+    },
+    ready: false,
+    onReady: []
 }
 
 var onComplete = function(){};
@@ -45,21 +76,23 @@ var archive = [],
 
 module.exports = {
     setCompleteCB: function(cb){
-        log('story complete')
         onComplete = cb;
     },
     getSentence: function(){
         return activeCollab.nextSentence()
     },
     saveSentence: function(data, user){
-        activeCollab.story[data.id][1].value = data.value
-        activeCollab.story[data.id][1].value = data.user
-        activeCollab.blockComplete++
+        data.forEach(function(chunk){
+            if (typeof chunk === 'object'){
+                chunk.user = user.name;
+            }
+        })
+        activeCollab.story[data.id] = data;
+        activeCollab.blockComplete++;
         if (activeCollab.blockComplete == activeCollab.story.length) {
-            onComplete(activeCollab.story)
+            onComplete(activeCollab.story);
+            archive.push(activeCollab.story);
+            activeCollab = new Collab()
         }
-        archive.push(activeCollab.story)
-        activeCollab = new Collab()
-    },
-    
+    }
 }
