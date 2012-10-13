@@ -1,5 +1,6 @@
 var collab = require('./collab.js'),
-    connections = [];
+    connections = [],
+    log = require('util').log;
 
 collab.setCompleteCB(function(story){
     connections.forEach(function(socket, i, arr){
@@ -10,7 +11,6 @@ collab.setCompleteCB(function(story){
 function Socket(socket){
 
     var user = null;
-
     this.emit = socket.emit;
 
     socket.on('disconnect', function(){
@@ -28,11 +28,16 @@ function Socket(socket){
     })
 
     socket.on('need-sentence', function(){
+        log('I need a sentence')
         socket.emit('new-sentence', collab.getSentence());
     });
 
     socket.on('usethis', function(sentence){
         collab.saveSentence(sentence, user.name);
+    })
+
+    socket.on('needuserlist', function(){
+        socket.emit('userlist', collab.allUserNames)
     })
 
     socket.emit('dontknowyou');
