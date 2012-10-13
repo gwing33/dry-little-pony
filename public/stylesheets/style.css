@@ -1,0 +1,120 @@
+body {
+<<<<<<< HEAD
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+=======
+  background: url("/images/navy_blue.png") #474747;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  color: #222;
+>>>>>>> 462aae9d9250221e68470a3a04c2b9ee38d7eea6
+}
+a {
+  color: #00b7ff;
+}
+<<<<<<< HEAD
+=======
+h1 {
+  font-size: 80px;
+  text-align: center;
+  color: #222;
+  text-shadow: 2px 2px 0px #707070, 4px 4px 0px #222;
+}
+h2 {
+  color: #fff;
+  text-shadow: 0 0 3px #000;
+}
+input {
+  border-radius: 3px;
+  line-height: 20px;
+}
+input[type="text"] {
+  border: 1px solid #ccc;
+  box-shadow: 0 0 2px 0 #d4d4d4;
+  width: 200px;
+  padding: 3px;
+  font-weight: normal;
+  margin: 0 4px;
+}
+input[type="submit"] {
+  border: 0;
+  background: #387fce;
+  color: #fff;
+  text-shadow: -1px -1px 0 #2364ad;
+  padding: 3px 10px;
+  min-width: 87px;
+  margin-left: 3px;
+  font-size: 18px;
+}
+.main {
+  max-width: 960px;
+  margin: 0 auto;
+}
+.madlib-box {
+  background: #fff;
+  padding: 20px;
+  box-shadow: 0 0 55px rgba(0,0,0,0.4);
+  line-height: 20px;
+  text-align: right;
+}
+.madlib-box p {
+  text-align: center;
+  border-bottom: 1px solid #efefef;
+  padding-bottom: 20px;
+}
+.madlib-box .madlib-complete p {
+  text-align: left;
+}
+.loading {
+  text-align: center;
+  font-size: 30px;
+  color: #ce8300;
+}
+.madlib-complete {
+  display: none;
+}
+.madlib-complete p {
+  font-size: 20px;
+  line-height: 60px;
+}
+.madlib-complete span {
+  line-height: 20px;
+  position: relative;
+  display: inline-block;
+  color: #666;
+  padding: 0 2px;
+  margin: 0 2px;
+  min-width: 70px;
+  border-bottom: 1px dashed #666;
+}
+.madlib-complete span:hover {
+  color: #ce8300;
+  border-bottom-color: transparent;
+}
+.madlib-complete span:hover i {
+  display: block;
+}
+.madlib-complete span i {
+  border-top: 1px solid #ce8300;
+  position: absolute;
+  left: 2px;
+  top: 21px;
+  background: #f4dfbb;
+  font-size: 10px;
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  display: none;
+  white-space: nowrap;
+  padding: 0 2px;
+}
+.madlib-snippet {
+  display: none;
+}
+.active-users {
+  font-size: 16px;
+  margin-top: 40px;
+  color: #999;
+}
+.active-users span {
+  color: #9a8656;
+}
+>>>>>>> 462aae9d9250221e68470a3a04c2b9ee38d7eea6
