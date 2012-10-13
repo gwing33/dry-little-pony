@@ -110,7 +110,7 @@ function generateMadlib(chunk) {
   , madlib = []
   , current = [];
 
-  while (inputs < 3) {
+  while (inputs < (chunk.length / 5)) {
     i =  0^(Math.random()*chunk.length)
     word = chunk[i]
 
