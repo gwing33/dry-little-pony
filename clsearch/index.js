@@ -181,11 +181,11 @@ getMadLib = function(query, callback){
 exports.getMadLib = getMadLib;
 
 
-getMadLib('love', function(err, result) {
-  console.log(result.title)
-  console.log(result.body)
+// getMadLib('love', function(err, result) {
+//   console.log(result.title)
+//   console.log(result.body)
 
-  for (var i=0; i<result.madlibs.length; i++) {
-  console.log(JSON.stringify(result.madlibs[i]))
-  }
-})
+//   for (var i=0; i<result.madlibs.length; i++) {
+//   console.log(JSON.stringify(result.madlibs[i]))
+//   }
+// })
