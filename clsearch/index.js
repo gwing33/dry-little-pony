@@ -42,30 +42,27 @@ function parsePage(body, callback) {
     parseText(title, body, callback)
 }
 
-
-var __sentenceEnd = {
-  '.': true,
-  '!': true,
-  '?': true
-};
-
 function splitSentences(taggedWords) {
   var sentences = []
     , current = []
+    , validSentence = false
     , word
     , i;
 
   for (i = 0; i < taggedWords.length; i++) {
     word = taggedWords[i]
     current.push(word)
-    if (__sentenceEnd[word[1]] && current.length) {
-      current.push()
+
+    if (word[1] !== '.' && validSentence) {
       sentences.push(current)
       current = []
+      validSentence = false
+    } else {
+      validSentence = true
     }
   }
 
-  if (current.length) {
+  if (validSentence) {
     sentences.push(current)
   }
 
@@ -186,12 +183,38 @@ getMadLib = function(query, callback){
 exports.getMadLib = getMadLib;
 
 
-// getMadLib('love', function(err, result) {
-//   console.log(result.title)
-//   console.log(result.body)
+// getMadLib('stupid', function(err, result) {
+//   console.log(result.title, '\n')
+//   console.log(result.body, '\n')
 //   console.log(result.taggedWords)
 
 //   for (var i=0; i<result.madlibs.length; i++) {
-//   console.log(JSON.stringify(result.madlibs[i]))
+//     console.log(JSON.stringify(result.madlibs[i]), '\n')
 //   }
 // })
+
+
+// if (process.argv.length > 2) {
+//   getMadLib(process.argv[2], function(err, result) {
+//     console.log('Title:', result.title, '\n')
+
+//     var buffer = []
+//       , madlib
+//       , part
+//       , i, j;
+
+//     for (var i=0; i<result.madlibs.length; i++) {
+//       madlib = result.madlibs[i]
+//       for (var j=0; j<madlib.length; j++) {
+//         part = madlib[j]
+//         if (part.type) {
+//           buffer.push("[" + part.type + "]")
+//         } else {
+//           buffer.push(part)
+//         }
+//       }
+//     }
+
+//     console.log(buffer.join(' '), '\n')
+//   })
+// }

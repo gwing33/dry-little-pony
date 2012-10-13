@@ -28,7 +28,7 @@ input[type="text"] {
   font-weight: normal;
   margin: 0 4px;
 }
-input[type="submit"] {
+input[type="button"] {
   border: 0;
   background: #387fce;
   color: #fff;
@@ -58,6 +58,7 @@ input[type="submit"] {
   text-align: left;
 }
 .loading {
+  display: none;
   text-align: center;
   font-size: 30px;
   color: #ce8300;
