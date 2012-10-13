@@ -10,8 +10,9 @@
     "jade": "*",
     "stylus": "*",
     "socket.io": "*",
+    "cheerio": "*",
+    "pos": "*",
     "clone":"0.1.1",
-    "q":"0.8.9",
-    "cheerio": "*"
+    "q":"0.8.9"
   }
 }
