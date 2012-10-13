@@ -105,12 +105,16 @@ var __pos = {
 };
 
 function generateMadlib(chunk) {
-  var i, word
+  var i, word, attempts
   , inputs = 0
   , madlib = []
   , current = [];
 
-  while (inputs < (chunk.length / 5)) {
+  for (attempts = 0; attempts < chunk.length; attempts++) {
+    if (inputs >= (chunk.length / 5)) {
+      break
+    }
+
     i =  0^(Math.random()*chunk.length)
     word = chunk[i]
 
@@ -158,6 +162,7 @@ function parseText(title, body, callback) {
   callback(null, {
     title: title,
     body: body,
+    taggedWords: taggedWords,
     madlibs: madlibs
   })
 }
@@ -184,6 +189,7 @@ exports.getMadLib = getMadLib;
 // getMadLib('love', function(err, result) {
 //   console.log(result.title)
 //   console.log(result.body)
+//   console.log(result.taggedWords)
 
 //   for (var i=0; i<result.madlibs.length; i++) {
 //   console.log(JSON.stringify(result.madlibs[i]))
