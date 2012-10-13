@@ -1,18 +1,11 @@
 body {
-<<<<<<< HEAD
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
-=======
   background: url("/images/navy_blue.png") #474747;
   font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
   color: #222;
->>>>>>> 462aae9d9250221e68470a3a04c2b9ee38d7eea6
 }
 a {
   color: #00b7ff;
 }
-<<<<<<< HEAD
-=======
 h1 {
   font-size: 80px;
   text-align: center;
@@ -117,4 +110,3 @@ input[type="submit"] {
 .active-users span {
   color: #9a8656;
 }
->>>>>>> 462aae9d9250221e68470a3a04c2b9ee38d7eea6

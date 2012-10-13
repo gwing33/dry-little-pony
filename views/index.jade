@@ -41,9 +41,4 @@ block content
     span Bob
 
   script(src='/socket.io/socket.io.js')
-  script
-    var socket = io.connect('http://localhost');
-    socket.on('madlib:start', function (data) {
-      console.log(data);
-      socket.emit('madlib:finish', { my: 'data' });
-    });
+  script(src='/javascripts/main.js')
