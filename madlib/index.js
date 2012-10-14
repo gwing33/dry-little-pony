@@ -1,0 +1,122 @@
+var _   = require('underscore')
+  , pos = require('pos');
+
+var __validPOS = {
+  'JJ':  'Adjective',
+  'NN':  'Noun',
+  'NNP': 'Proper noun',
+  'RB':  'Adverb',
+  'VB':  'Verb'
+}
+
+var wordTokenize = (function() {
+  var lexer = new pos.Lexer()
+  return function(text) {
+    return lexer.lex(text)
+  }
+})()
+
+var tagWords = (function() {
+  var tagger = new pos.Tagger()
+  return function(words) {
+    return _.map(tagger.tag(words), function(word) {
+      return {
+        text: word[0],
+        tag:  word[1]
+      }
+    })
+  }
+})()
+
+function isIntresting(word) {
+  return __validPOS.hasOwnProperty(word.tag)
+}
+
+function getIntresting(taggedWords) {
+  return _.filter(taggedWords, isIntresting)
+}
+
+function randomizer(items) {
+  items = items.slice(0)
+  return function() {
+    var index = 0 ^ (Math.random() * items.length)
+    return items.splice(index, 1)[0]
+  }
+}
+
+function markPOS(taggedWords, percent) {
+  var totalToMark = 0 ^ (percent * taggedWords.length)
+    , getRandom   = randomizer(taggedWords)
+    , i, word;
+
+  for (i = 0; i < totalToMark; i++) {
+    word     = getRandom()
+    word.pos = __validPOS[word.tag]
+  }
+}
+
+var spacingFix = (function() {
+  var nospaceRe = / *([.?!,:;])/g
+  return function(text) {
+    return text.replace(nospaceRe, '$1')
+  }
+})()
+
+function formatSentancePart(taggedWords) {
+  return spacingFix(_.pluck(taggedWords, 'text').join(' '))
+}
+
+function checkCurrent(current, madlib) {
+  if (current.length) {
+    madlib.push(formatSentancePart(current))
+    return []
+  }
+  return current
+}
+
+function formatTaggedWords(taggedWords) {
+  var len     = taggedWords.length
+    , madlib  = []
+    , current = []
+    , i, word;
+
+  for (i = 0; i < len; i++) {
+    word = taggedWords[i]
+
+    if (word.pos) {
+      current = checkCurrent(current, madlib)
+      madlib.push({type: word.pos})
+    } else {
+      current.push(word)
+    }
+  }
+
+  checkCurrent(current, madlib)
+  return madlib
+}
+
+function _generate(taggedWords) {
+  markPOS(getIntresting(taggedWords), 0.5)
+  return formatTaggedWords(taggedWords)
+}
+
+function generate(text) {
+  var words       = wordTokenize(text)
+    , taggedWords = tagWords(words);
+
+  return _generate(taggedWords)
+}
+
+function prettyFormat(madlib) {
+  return spacingFix(_.map(madlib, function(part) {
+    if (part.type) {
+      return "[" + part.type + "]"
+    }
+    return part
+  }).join(' '))
+}
+
+module.exports = {
+  generate:     generate,
+  prettyFormat: prettyFormat
+}
