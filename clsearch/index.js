@@ -1,4 +1,5 @@
-console.log('WARNING: This code sucks. Use the new craigslist and madlib modules.')
+console.log('WARNING: This code sucks and must have been writen by a half drunk monkey.')
+console.log('Use the new craigslist and madlib modules.')
 
 var http = require('http')
   , cheerio = require('cheerio')

@@ -1,5 +1,8 @@
+/*jshint asi:true, laxcomma:true, node:true */
+"use strict";
+
 var _   = require('underscore')
-  , pos = require('pos');
+  , pos = require('pos')
 
 var __validPOS = {
   'JJ':  'Adjective',
@@ -50,7 +53,7 @@ function randomizer(items) {
 function markPOS(taggedWords, percent) {
   var totalToMark = 0 ^ (percent * taggedWords.length)
     , getRandom   = randomizer(taggedWords)
-    , i, word;
+    , i, word
 
   for (i = 0; i < totalToMark; i++) {
     word     = getRandom()
@@ -81,7 +84,7 @@ function formatTaggedWords(taggedWords) {
   var len     = taggedWords.length
     , madlib  = []
     , current = []
-    , i, word;
+    , i, word
 
   for (i = 0; i < len; i++) {
     word = taggedWords[i]
@@ -105,7 +108,7 @@ function _generate(taggedWords) {
 
 function generate(text) {
   var words       = wordTokenize(text)
-    , taggedWords = tagWords(words);
+    , taggedWords = tagWords(words)
 
   return _generate(taggedWords)
 }
@@ -124,11 +127,8 @@ function splitChunks(taggedWords, minIntresting) {
   var chunks  = []
     , current = []
     , validSentence = false
-    , i, word;
 
-  for (i = 0; i < taggedWords.length; i++) {
-    word = taggedWords[i]
-
+  _.each(taggedWords, function(word) {
     if (word.tag === '.') {
       validSentence = true
       current.push(word)
@@ -141,7 +141,7 @@ function splitChunks(taggedWords, minIntresting) {
     }
 
     current.push(word)
-  }
+  })
 
   var lastChunk = chunks[chunks.length-1]
   _.each(current, function(word) {
@@ -154,7 +154,7 @@ function splitChunks(taggedWords, minIntresting) {
 function generateChunks(text, minIntresting) {
   var words       = wordTokenize(text)
     , taggedWords = tagWords(words)
-    , chunks      = splitChunks(taggedWords, minIntresting);
+    , chunks      = splitChunks(taggedWords, minIntresting)
 
   return _.map(chunks, _generate)
 }
